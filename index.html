@@ -1,0 +1,564 @@
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js" type="text/javascript"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/jquery.qtip.css" />
+    <link rel="stylesheet" href="./css/gameboard.css" />
+    <link rel="stylesheet" href="./css/theme.css" />
+</head>
+<body>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<!-- <div class="jumbotron">
+    <div class="container">
+        <h1>Monopoly!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+    </div>
+</div> -->
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12"><div id="player-game-actions-container"></div></div>
+        </div>
+        <div class="row">
+            <div class="col-md-10" id="gameboard">
+                <div id="squares-container"></div>
+                <div id="dice-container">
+                    <div id="real-dice"></div>
+                    <div id="fake-dice"></div>
+                    <div id="buttons-container"></div>
+                </div>
+                <div id="chance-cards-stack-container"></div>
+                <div id="community-cards-stack-container"></div>
+                <div id="jail"><div class="jailed-players"></div><div class="jail-bars"></div></div>
+            </div>
+            <div class="col-md-2">
+                <div id="players-container"></div>
+                <div id="game-log"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script id="player-template" type="x-tmpl-mustache">
+        <div class="player" id="{{domID}}">
+            <div class="player-title">
+                <div class="pin {{cssClass}}"></div>
+                {{#turn}}
+                    <div class="turn"><span class="{{cssClass}}"> &lt; </span></div>
+                {{/turn}}
+                <div class="player-info">
+                    <span class="player-name">{{name}}</span>
+                    <span class="player-money">{{currency}}{{money}}</span>
+                </div>
+            </div>
+            <div class="player-assets">
+                {{#squaresOwned}}
+                    <div class="asset {{group.name}}" id="asset-{{domID}}">{{title}}
+                    {{#isMortgaged}}*{{/isMortgaged}}
+
+                    </div>
+                {{/squaresOwned}}
+                {{#communityChestJailCard}}
+                    <p>You have {{communityChestJailCard}} Community Chest Jail Cards</p>
+                {{/communityChestJailCard}}
+
+                {{#chanceJailCard}}
+                    <p>You have {{chanceJailCard}} Chance Jail Cards</p>
+                {{/chanceJailCard}}
+            </div>
+        </div>
+    </script>
+
+    <script id="square-template" type="x-tmpl-mustache">
+        <div class="square col-xs-1" id="{{domID}}">
+            {{#stayers}}
+            <div class="player-position-holder {{cssClass}}"></div>
+            {{/stayers}}
+            <div class="square-title">{{title}}
+                {{#price}}
+                <span>Price {{currency}}{{price}}</span>
+                {{/price}}
+            </div>
+            {{#owned}}
+            <div class="square-owner {{owner.cssClass}}"></div>
+            {{/owned}}
+            {{#grouped}}
+            <div class="square-group {{group.name}}"></div>
+            <div class="buildings">
+                {{#tmplHouseCount}}
+                    <div class="house {{owner.cssClass}}"></div>
+                {{/tmplHouseCount}}
+                {{#tmplHotelCount}}
+                    <div class="hotel {{owner.cssClass}}"></div>
+                {{/tmplHotelCount}}
+            </div>
+            {{/grouped}}
+            {{#tooltip}}
+            <div class="information-tooltip {{className}}">
+                <div class="tooltip-title {{group.name}}">{{title}}</div>
+                <div class="tooltip-rent">
+                    {{#utility}}
+                    <p>If one "Utility" is owned, rent is 4 times amount shown on dice</p>
+                    <p>If both "Utilities" are owned, rent is 10 times amount shown on dice</p>
+                    {{/utility}}
+                    {{^utility}}
+                    <span>Price: {{currency}}{{price}}</span>
+                    <span>Rent: {{currency}}{{rent}}</span>
+                    {{/utility}}
+                </div>
+                <div class="tooltip-content">
+                    {{#grouped}}
+                    <span>With 1 House</span><span>{{currency}}{{oneHouseRent}}</span>
+                    <span>With 2 Houses</span><span>{{currency}}{{twoHousesRent}}</span>
+                    <span>With 3 Houses</span><span>{{currency}}{{threeHousesRent}}</span>
+                    <span>With 4 Houses</span><span>{{currency}}{{fourHousesRent}}</span>
+                    <span>With Hotel</span><span>{{currency}}{{hotelRent}}</span>
+                    {{/grouped}}
+                    {{#locomotive}}
+                    <span>If 2 Railroads are owned</span><span>{{currency}}{{rent2}}</span>
+                    <span>If 3 Railroads are owned</span><span>{{currency}}{{rent3}}</span>
+                    <span>If 4 Railroads are owned</span><span>{{currency}}{{rent4}}</span>
+                    {{/locomotive}}
+                    <p>Mortgage Value: {{currency}}{{mortgageAmount}}</p>
+                    {{#grouped}}
+                    <p>Houses Cost Each: {{currency}}{{constructionCost}}</p>
+                    <p>Hotel Cost: {{currency}}{{constructionCost}} + 4 Houses </p>
+                    {{/grouped}}
+                </div>
+                {{#grouped}}
+                <div class="note">If a player has all the lands of one color but no houses, the rent is doubled.</div>
+                {{/grouped}}
+            </div>
+            {{/tooltip}}
+        </div>
+    </script>
+
+    <script id="auction-template" type="x-tmpl-mustache">
+        <div class="auction-wrapper">
+            <div class="auction-title">Auction for {{square.title}}</div>
+            <div class="auction-content">
+                <div class="square-price">Actual Price: {{currency}}{{square.price}}</div>
+                {{#highestBid}}
+                    <div class="auction-highest-bid">Highest Bid: <b>{{currency}}{{highestBid}}</b> by <b>{{highestBidder.name}}</b></div>
+                {{/highestBid}}
+
+                <p>{{currentBidder.name}}, it's your turn to bid</p>
+                <div class="input-group">
+                    <span class="input-group-addon">{{currency}}</span>
+                    <input type="number" name="bid_amount" id="txt-bid-amount" min="{{highestBid}}" max="{{currentBidder.money}}" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <span class="input-group-addon">.00</span>
+                </div>
+                <div class="auction-actions">
+                    <input type="button" id="place-bid" class="btn btn-success"  value="Bid" />
+                    <input type="button" id="pass-turn" class="btn btn-warning"  value="Pass" />
+                    <input type="button" id="exit-auction" class="btn btn-danger"  value="Exit Auction" />
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="x-tmpl-mustache" id="player-game-actions">
+        <div>
+        {{#turn}}
+            {{#canConstructBuilding}}
+                <button type="button" id="btn-action-build" class="btn"><i class="icon"></i>Build</button>
+            {{/canConstructBuilding}}
+            {{#haveBuildings}}
+                <button type="button" id="btn-action-sale" class="btn"><i class="icon "></i>Sell</button>
+            {{/haveBuildings}}
+            {{#canMortgage}}
+                <button type="button" id="btn-action-mortgage" class="btn"><i class="icon "></i>Mortgage</button>
+            {{/canMortgage}}
+            {{#haveMortgagedBuildings}}
+                <button type="button" id="btn-action-unmortgage" class="btn"><i class="icon "></i>Unmortage</button>
+            {{/haveMortgagedBuildings}}
+
+            <button type="button" class="btn" id="btn-action-trade"><i class="icon "></i>Trade</button>
+        {{/turn}}
+        </div>
+    </script>
+
+    <script id="jail-dialog-template" type="x-tmpl-mustache">
+        <div class="modal fade" id="jailModal" tabindex="-1" role="dialog" aria-labelledby="jailModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">{{name}} - You are in Jail</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>You are in Jail.
+
+                            {{#canRoll}} Either pay {{currency}}50 or roll a double{{/canRoll}}
+                            {{^canRoll}} You have been in Jail for last three turns, pay {{currency}}50 {{/canRoll}}
+
+                            {{#jailCard}}
+                                or use your card
+                            {{/jailCard}}
+                            to get out of jail.
+                        </p>
+                        <div class="jail-actions">
+                            {{#jailCard}}
+                                <button type="button" class="btn btn-success" id="use-jail-card">Use Card</button>
+                            {{/jailCard}}
+                            {{#enoughMoney}}
+                                 <button type="button" class="btn btn-warning" id="pay-jail-fine">Pay {{currency}}50</button>
+                            {{/enoughMoney}}
+                            {{#canRoll}}
+                                <button type="button" class="btn btn-info" id="roll-jail-dice">Roll Dice</button>
+                            {{/canRoll}}
+                        </div>
+                        <p class="small">In jail for {{turnsWhileInJail}} turns</p>
+                    </div>
+                    <div class="modal-footer">
+                        <p>Click the dice below to roll them.</p>
+                        <div id="jail-dice-rolling-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+
+
+    <script id="mortgage-template" type="x-tmpl-mustache">
+        <div class="container-fluid" id="mortgage-form-wrapper">
+        {{#displayControls}}
+            <div class="row">
+                <div class="col-md-7">
+                    <h3>Step 1 </h3>
+                    <p> Select property to mortgage</p>
+                    <div class="manage-property">
+                    {{#relatedSquares}}
+                        <div class="property-summary {{group.name}}">
+                            <input type="checkbox" id="sq-{{index}}" name="selected_properties[]">
+                            <label for="sq-{{index}}" class="property-name">{{title}} | Mortgage Value: {{currency}}{{getMortgageAmount}}</label>
+                        </div>
+                    {{/relatedSquares}}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h3>Step 2</h3>
+                    <div class="manage-action">
+                            <button class="btn btn-warning" id="btn-do-mortgage">Mortgage</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissible hide" role="alert">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        {{/displayControls}}
+        {{^displayControls}}
+            <div class="row"><div class="col-md-12">
+                <div class="alert alert-dismissible alert-warning" role="alert">
+                    <p>You do not have any property that can be mortgaged</p>
+                </div>
+            </div></div>
+        {{/displayControls}}
+        </div>
+    </script>
+
+
+    <script id="unmortgage-template" type="x-tmpl-mustache">
+        <div class="container-fluid" id="unmortgage-form-wrapper">
+        {{#displayControls}}
+            <div class="row">
+                <div class="col-md-7">
+                    <h3>Step 1 </h3>
+                    <p> Select properties to unmortgage</p>
+                    <div class="manage-property">
+                    {{#relatedSquares}}
+                        <div class="property-summary {{group.name}}">
+                            <input type="checkbox" id="sq-{{index}}" name="selected_properties[]">
+                            <label for="sq-{{index}}" class="property-name">{{title}} | Mortgage Value: {{currency}}{{getMortgageAmount}}</label>
+                        </div>
+                    {{/relatedSquares}}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h3>Step 2</h3>
+                    <div class="manage-action">
+                            <button class="btn btn-info" id="btn-do-unmortgage">Unmortgage</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissible hide" role="alert">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        {{/displayControls}}
+        {{^displayControls}}
+            <div class="row"><div class="col-md-12">
+                <div class="alert alert-dismissible alert-warning" role="alert">
+                    <p>You do not have any property that can be unmortgaged</p>
+                </div>
+            </div></div>
+        {{/displayControls}}
+        </div>
+    </script>
+
+
+    <script id="build-template" type="x-tmpl-mustache">
+        <div class="container-fluid" id="build-form-wrapper">
+        {{#displayControls}}
+            <div class="row">
+                <div class="col-md-7">
+                    <h3>Step 1 </h3>
+                    <p> Select property to improve</p>
+                    <div class="manage-property">
+                    {{#relatedSquares}}
+                        <div class="property-summary {{group.name}}">
+                            <input type="radio" id="sq-{{index}}" name="selected_properties">
+                            <label for="sq-{{index}}" class="property-name">{{title}} | Construction Cost: {{currency}}{{getConstructionCost}}</label>
+                        </div>
+                    {{/relatedSquares}}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h3>Step 2</h3>
+                    <div class="manage-action">
+                        <button class="btn btn-warning" id="btn-do-construction">Build</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissible hide" role="alert">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        {{/displayControls}}
+        {{^displayControls}}
+            <div class="row"><div class="col-md-12">
+                <div class="alert alert-dismissible alert-warning" role="alert">
+                    <p>You do not have any property that can be improved</p>
+                </div>
+            </div></div>
+        {{/displayControls}}
+        </div>
+    </script>
+
+    <script id="sale-template" type="x-tmpl-mustache">
+        <div class="container-fluid" id="sale-form-wrapper">
+        {{#displayControls}}
+            <div class="row">
+                <div class="col-md-7">
+                    <h3>Step 1 </h3>
+                    <p> Select property to sale</p>
+                    <div class="manage-property">
+                    {{#relatedSquares}}
+                        <div class="property-summary {{group.name}}">
+                            <input type="radio" id="sq-{{index}}" name="selected_properties">
+                            <label for="sq-{{index}}" class="property-name">{{title}} | Sale Price: {{currency}}{{getBuildingSalePrice}}</label>
+                            <div class="square-properties">
+                                {{#tmplHouseCount}}
+                                    <img src="./images/house/{{owner.cssClass}}.png" />
+                                {{/tmplHouseCount}}
+                                {{#tmplHotelCount}}
+                                    <img src="./images/hotel/{{owner.cssClass}}.png" />
+                                {{/tmplHotelCount}}
+                            </div>
+                        </div>
+                    {{/relatedSquares}}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h3>Step 2</h3>
+                    <div class="manage-action">
+                        <button class="btn btn-warning" id="btn-do-sale">Sale</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissible hide" role="alert">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        {{/displayControls}}
+        {{^displayControls}}
+            <div class="row"><div class="col-md-12">
+                <div class="alert alert-dismissible alert-warning" role="alert">
+                    <p>You do not have any property that can be sold</p>
+                </div>
+            </div></div>
+        {{/displayControls}}
+        </div>
+    </script>
+
+
+    <script id="trade-template" type="x-tmpl-mustache">
+
+        <div id="trade-form-wrapper">
+            <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#trade-purchase-property" aria-controls="profile" role="tab" data-toggle="tab">Purchase</a></li>
+                <li role="presentation"><a href="#trade-sale-property" aria-controls="home" role="tab" data-toggle="tab">Sell</a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="trade-purchase-property">
+                    {{#validBuyData}}
+                        <div class="btn-group" id="buy-btn-group" data-toggle="buttons">
+                        {{#players}}
+                            {{#displayControls}}
+                              <label class="btn btn-primary">
+                                <input type="radio" name="player_name" id="buy-pl-{{index}}" autocomplete="off"> {{name}}
+                              </label>
+                            {{/displayControls}}
+                        {{/players}}
+                        </div>
+                        <div class="players-sales-section">
+                            {{#players}}
+                                {{#displayControls}}
+                                <div class="container-fluid buy-player-wrapper" id="player-specific-trade-{{index}}">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <h3>Step 1 </h3>
+                                            <p>Select properties to buy</p>
+                                             <div class="manage-property">
+                                                {{#relatedSquares}}
+                                                    <div class="property-summary {{group.name}}">
+                                                        <input type="checkbox" id="buy-sq-{{index}}" name="selected_properties[]">
+                                                        <label for="buy-sq-{{index}}" class="property-name">{{title}} | Price: {{currency}}{{price}}</label>
+                                                    </div>
+                                                {{/relatedSquares}}
+                                             </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <h3>Step 2</h3>
+                                            <div class="trade-price-wrapper">
+                                                <label>Offer Price: </label>
+                                                <div class="input-group input-group-sm">
+                                                  <span class="input-group-addon" id="sizing-addon1">{{currency}}</span>
+                                                  <input type="number" name="offered_price" class="form-control" aria-describedby="sizing-addon1">
+                                                  <span class="input-group-addon">.00</span>
+                                                </div>
+                                            </div>
+                                            <div class="manage-action">
+                                                <button class="btn btn-warning btn-do-trade-purchase">Propose Trade</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"><div class="col-md-12"><div class="alert alert-dismissible hide" role="alert"><p></p></div></div></div>
+                                </div>
+                                {{/displayControls}}
+                            {{/players}}
+                        </div>
+                    {{/validBuyData}}
+                    {{^validBuyData}}
+                         <div class="alert alert-dismissible alert-warning" role="alert">
+                                <p>None of the players have properties that you can buy</p>
+                            </div>
+                    {{/validBuyData}}
+
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="trade-sale-property">
+                    {{#current_player.displayControls}}
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h3>Step 1 </h3>
+                                    <p>Select properties to sale</p>
+                                     <div class="manage-property">
+                                        {{#current_player.relatedSquares}}
+                                            <div class="property-summary {{group.name}}">
+                                                <input type="checkbox" id="sq-{{index}}" name="selected_properties[]">
+                                                <label for="sq-{{index}}" class="property-name">{{title}} | Price: {{currency}}{{price}}</label>
+                                            </div>
+                                        {{/current_player.relatedSquares}}
+                                     </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <h3>Step 2</h3>
+                                    <div class="trade-price-wrapper">
+                                        <label>Proposed Price: </label>
+                                        <div class="input-group input-group-sm">
+                                          <span class="input-group-addon" id="sizing-addon1">{{currency}}</span>
+                                          <input type="number" name="proposed_price" class="form-control" aria-describedby="sizing-addon1">
+                                          <span class="input-group-addon">.00</span>
+                                        </div>
+                                    </div>
+                                    {{#current_player.showPlayers}}
+                                        <h3>Step 3</h3>
+                                        <div class="trade-players-wrapper row">
+                                        {{#current_player.players}}
+                                            <label for="pl-{{index}}" class="player-name col-md-6"><input type="radio" id="pl-{{index}}" name="selected_player"> {{name}}</label>
+                                        {{/current_player.players}}
+                                        </div>
+                                    {{/current_player.showPlayers}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="manage-action col-md-12">
+                                    <button class="btn btn-warning" id="btn-do-trade-sale">Propose Trade</button>
+                                </div>
+                            </div>
+                            <div class="row"><div class="col-md-12"><div class="alert alert-dismissible hide" role="alert"><p></p></div></div></div>
+                        </div>
+                    {{/current_player.displayControls}}
+                    {{^current_player.displayControls}}
+                        <div class="row"><div class="col-md-12">
+                            <div class="alert alert-dismissible alert-warning" role="alert">
+                                <p>You do not have any property that can be traded</p>
+                            </div>
+                        </div></div>
+                    {{/current_player.displayControls}}
+                </div>
+
+              </div>
+        </div>
+
+    </script>
+
+
+
+
+	<script>
+        var game = null;
+        var baseUrl = '.';
+    </script>
+    <script language="JavaScript" src="js/bootstrap-dialog.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/mustache.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/jquery.qtip.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/classic-game.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/objects.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/events.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/misc-ui.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/animation.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/player.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/square.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/auction.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/trade.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/dice.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/game.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/player_events.js" type="text/javascript"></script>
+    <script language="JavaScript" src="js/play.js" type="text/javascript"></script>
+
+</body>
+</html>

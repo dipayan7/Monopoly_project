@@ -1,0 +1,146 @@
+
+.information-tooltip {
+    background: rgba(255, 255, 255, 1);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(221, 221, 221, 1) 79%, rgba(221, 221, 221, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(79%, rgba(221, 221, 221, 1)), color-stop(100%, rgba(221, 221, 221, 1)));
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(221, 221, 221, 1) 79%, rgba(221, 221, 221, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(221, 221, 221, 1) 79%, rgba(221, 221, 221, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(221, 221, 221, 1) 79%, rgba(221, 221, 221, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(221, 221, 221, 1) 79%, rgba(221, 221, 221, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dddddd', GradientType=0);
+}
+.information-tooltip .tooltip-title{color:#fff;background-color:#AAAAAA;text-shadow:0px 1px 1px #444;}
+.information-tooltip .tooltip-rent span{ color:gold;text-shadow:1px 1px 0px peru;}
+
+/*#gameboard{ background-color: #EFEFEF;}
+#gameboard .square{background-color:white;}*/
+
+#gameboard .square:hover{ background-color:#FBF7AA; }
+
+#gameboard .square .square-group.alpha,
+.information-tooltip .tooltip-title.alpha{background-color:#2E629D}
+
+#gameboard .square .square-group.beta,
+.information-tooltip .tooltip-title.beta{background-color: #90D93F}
+
+#gameboard .square .square-group.gamma,
+.information-tooltip .tooltip-title.gamma{background-color: #912323}
+
+#gameboard .square .square-group.delta,
+.information-tooltip .tooltip-title.delta{background-color: #F1D031}
+
+#gameboard .square .square-group.epsilon,
+.information-tooltip .tooltip-title.epsilon{background-color: aquamarine}
+
+#gameboard .square .square-group.zeta,
+.information-tooltip .tooltip-title.zeta{background-color: blueviolet}
+
+#gameboard .square .square-group.eta,
+.information-tooltip .tooltip-title.eta{background-color: chocolate}
+
+#gameboard .square .square-group.theta,
+.information-tooltip .tooltip-title.theta{background-color: cadetblue}
+
+#gameboard .square .square-group.iota,
+.information-tooltip .tooltip-title.iota{background-color: crimson}
+
+#gameboard .square .square-group.kappa,
+.information-tooltip .tooltip-title.kappa{background-color: forestgreen}
+
+
+#players-container .player .player-assets .asset.alpha{border-color:#2E629D}
+#players-container .player .player-assets .asset.beta{border-color: #90D93F}
+#players-container .player .player-assets .asset.gamma{border-color: #912323}
+#players-container .player .player-assets .asset.delta{border-color: #F1D031}
+#players-container .player .player-assets .asset.epsilon{border-color: aquamarine}
+#players-container .player .player-assets .asset.zeta{border-color: blueviolet}
+#players-container .player .player-assets .asset.eta{border-color: chocolate}
+#players-container .player .player-assets .asset.theta{border-color: cadetblue}
+#players-container .player .player-assets .asset.iota{border-color: crimson}
+#players-container .player .player-assets .asset.kappa{border-color: forestgreen}
+
+
+
+/* #gameboard .player-position-holder.red{border:2px solid #eb3b84;}
+#gameboard .player-position-holder.blue{border:2px solid #68d3f1;}*/
+
+#gameboard .player-position-holder.red{background: url('../images/position/red.png');}
+#gameboard .player-position-holder.blue{background: url('../images/position/blue.png');}
+#gameboard .player-position-holder.yellow{background: url('../images/position/yellow.png');}
+#gameboard .player-position-holder.green{background: url('../images/position/green.png');}
+#gameboard .player-position-holder.orange{background: url('../images/position/orange.png');}
+#gameboard .player-position-holder.brown{background: url('../images/position/brown.png');}
+#gameboard .player-position-holder.purple{background: url('../images/position/purple.png');}
+#gameboard .player-position-holder.grey{background: url('../images/position/grey.png');}
+
+/*#gameboard .square .square-owner.red{background-color:#eb3b84;}
+#gameboard .square .square-owner.blue{background-color:#68d3f1;}*/
+#gameboard .square .square-owner.red{background: url('../images/owner/red.png');}
+#gameboard .square .square-owner.blue{background: url('../images/owner/blue.png');}
+#gameboard .square .square-owner.yellow{background: url('../images/owner/yellow.png');}
+#gameboard .square .square-owner.green{background: url('../images/owner/green.png');}
+#gameboard .square .square-owner.orange{background: url('../images/owner/orange.png');}
+#gameboard .square .square-owner.brown{background: url('../images/owner/brown.png');}
+#gameboard .square .square-owner.purple{background: url('../images/owner/purple.png');}
+#gameboard .square .square-owner.grey{background: url('../images/owner/grey.png');}
+
+
+#gameboard .square .buildings .house{background: url('../images/house/general.png');}
+#gameboard .square .buildings .house.red{background: url('../images/house/red.png');}
+#gameboard .square .buildings .house.blue{background: url('../images/house/blue.png');}
+#gameboard .square .buildings .house.yellow{background: url('../images/house/yellow.png');}
+#gameboard .square .buildings .house.green{background: url('../images/house/green.png');}
+#gameboard .square .buildings .house.orange{background: url('../images/house/orange.png');}
+#gameboard .square .buildings .house.brown{background: url('../images/house/brown.png');}
+#gameboard .square .buildings .house.purple{background: url('../images/house/purple.png');}
+#gameboard .square .buildings .house.grey{background: url('../images/house/grey.png');}
+
+#gameboard .square .buildings .hotel{background: url('../images/hotel/general.png');}
+#gameboard .square .buildings .hotel.red{background: url('../images/hotel/red.png');}
+#gameboard .square .buildings .hotel.blue{background: url('../images/hotel/blue.png');}
+#gameboard .square .buildings .hotel.yellow{background: url('../images/hotel/yellow.png');}
+#gameboard .square .buildings .hotel.green{background: url('../images/hotel/green.png');}
+#gameboard .square .buildings .hotel.orange{background: url('../images/hotel/orange.png');}
+#gameboard .square .buildings .hotel.brown{background: url('../images/hotel/brown.png');}
+#gameboard .square .buildings .hotel.purple{background: url('../images/hotel/purple.png');}
+#gameboard .square .buildings .hotel.grey{background: url('../images/hotel/grey.png');}
+
+
+
+#gameboard #jail .jail-bars {background-image:url('../images/jailbars.png'); background-size:cover; z-index:100}
+
+
+#CommunityCardSquare-2{ background-image: url("../images/cc.png"); background-position: center bottom; background-repeat: no-repeat;}
+#gameboard .row:last-child .square#CommunityCardSquare-2{ padding-top:10px;}
+#CommunityCardSquare-17{ background-image: url("../images/cc.png"); background-position: center bottom; background-repeat: no-repeat;}
+#CommunityCardSquare-33{ background-image: url("../images/cc.png"); background-position: center bottom; background-repeat: no-repeat;}
+
+#ChanceCardSquare-7{ background-image: url("../images/qmark.png"); background-position: center bottom; background-repeat: no-repeat;}
+#gameboard .row:last-child .square#ChanceCardSquare-7{ padding-top:10px;}
+#ChanceCardSquare-22{ background-image: url("../images/qmark.png"); background-position: center bottom; background-repeat: no-repeat;}
+#ChanceCardSquare-36{ background-image: url("../images/qmark.png"); background-position: right bottom; background-repeat: no-repeat;}
+
+
+#UtilitySquare-12{ background-image: url("../images/bulb.png"); background-position: right center; background-repeat: no-repeat;}
+#UtilitySquare-28{ background-image: url("../images/water.png"); background-position: center bottom; background-repeat: no-repeat;}
+
+
+
+
+#players-container .player .player-title .turn .red{color:#eb3b84;}
+#players-container .player .player-title .turn .blue{color:#68d3f1;}
+#players-container .player .player-title .turn .yellow{color: #eae15f}
+#players-container .player .player-title .turn .green{color:#6acf63 ;}
+#players-container .player .player-title .turn .orange{color:#ff6b3a ;}
+#players-container .player .player-title .turn .purple{color:#b43cff ;}
+#players-container .player .player-title .turn .brown{color:#c97a4f ;}
+#players-container .player .player-title .turn .grey{color:#939393 ;}
+
+#players-container .player .player-title .pin.red{background-color:#eb3b84;}
+#players-container .player .player-title .pin.blue{background-color:#68d3f1;}
+#players-container .player .player-title .pin.green{background-color:#6acf63 ;}
+#players-container .player .player-title .pin.yellow{background-color:#eae15f ;}
+#players-container .player .player-title .pin.orange{background-color:#ff6b3a ;}
+#players-container .player .player-title .pin.brown{background-color:#c97a4f ;}
+#players-container .player .player-title .pin.purple{background-color:#b43cff ;}
+#players-container .player .player-title .pin.grey{background-color:#939393 ;}

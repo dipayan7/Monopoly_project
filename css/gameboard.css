@@ -1,0 +1,208 @@
+#gameboard {
+    position:relative;
+    min-width:992px;
+}
+
+#gameboard .row .col-xs-1{
+    border: 1px solid #CCC;
+    border-right:0px;
+    border-bottom:0px;
+    min-height:55px;
+}
+
+#gameboard .row:first-child .col-xs-1,
+#gameboard .row:last-child .col-xs-1{
+    min-height:80px;
+    border-bottom:1px solid #ccc;
+}
+
+#gameboard .row .col-xs-1:first-child,
+#gameboard .row .col-xs-1:last-child {
+    width:12.5%;
+    border-right:1px solid #ccc;
+}
+
+#gameboard .row:first-child .col-xs-1:first-child,
+#gameboard .row:first-child .col-xs-1:last-child {
+    border-bottom:0px;
+}
+
+#gameboard .row:first-child .col-xs-1:last-child,
+#gameboard .row:last-child .col-xs-1:last-child{
+    border-right:1px solid #ccc;
+}
+
+#gameboard .row:first-child .col-xs-1:first-child,
+#gameboard .row:last-child .col-xs-1:first-child{
+    border-right:0px;
+}
+
+#gameboard .row .col-xs-1:last-child{
+    margin-left:75%;
+}
+
+#gameboard .row:first-child .col-xs-1:last-child,
+#gameboard .row:last-child .col-xs-1:last-child{
+    margin-left:0px;
+}
+
+#gameboard .square{position:relative;}
+
+#gameboard .row:last-child .square{padding-top:25px}
+#gameboard .row .square:first-child{padding-right:25px}
+#gameboard .row .square:last-child{padding-left:25px;}
+#gameboard .row:first-child .square{padding-bottom:25px;}
+
+
+
+#gameboard .player-position-holder{width:32px;height:32px;position:absolute;bottom:2px;left:5px;z-index:99}
+#gameboard .player-position-holder:nth-child(2){bottom:22px;}
+#gameboard .player-position-holder:nth-child(3){bottom:42px;}
+#gameboard .player-position-holder:nth-child(4){bottom:62px;}
+#gameboard .player-position-holder:nth-child(4){left:25px;}
+#gameboard .player-position-holder:nth-child(5){left:45px;}
+#gameboard .player-position-holder:nth-child(6){left:65px;}
+#gameboard .player-position-holder:nth-child(7){left:85px;}
+
+
+#gameboard .square .square-owner{width:32px;height:32px;position:absolute;top:0px;right:10px;z-index:99}
+#gameboard .row:last-child .square .square-owner{top: -40px;}
+#gameboard .row .square:first-child .square-owner{right:-30px;}
+#gameboard .row .square:last-child .square-owner{left:-35px;right:auto;}
+#gameboard .row:first-child .square .square-owner{bottom:-25px;top:auto;}
+
+
+#gameboard .square .square-group{position:absolute;}
+#gameboard .row:last-child .square .square-group{top:0px;left:0px;height:20px;width:100%;}
+#gameboard .row .square:first-child .square-group{top:0px;right:0px;height:100%;width:20px;}
+#gameboard .row .square:last-child .square-group{top:0px;left:0px;height:100%;width:20px;}
+#gameboard .row:first-child .square .square-group{bottom:0px;left:0px;height:20px;width:100%;}
+
+
+#gameboard .row .square .square-title{font-size:12px;}
+#gameboard .row .square .square-title span{font-size:0.8em;display:block;margin-top:5px;}
+
+
+#gameboard .square .buildings .house{width:16px;height:16px;position:absolute;top:2px;right:10px;z-index:99}
+#gameboard .row:last-child .square .buildings .house{}
+#gameboard .row:last-child .square .buildings .house:nth-child(2){right:30px;}
+#gameboard .row:last-child .square .buildings .house:nth-child(3){right:50px;}
+#gameboard .row:last-child .square .buildings .house:nth-child(4){right: 70px;}
+
+#gameboard .row .square:first-child .buildings .house{right:2px;}
+#gameboard .row .square:first-child .buildings .house:nth-child(2){top:18px}
+#gameboard .row .square:first-child .buildings .house:nth-child(3){top:34px}
+#gameboard .row .square:first-child .buildings .house:nth-child(4){top:34px;right:-20px;}
+
+#gameboard .row .square:last-child .buildings .house{left:2px;right:auto;}
+#gameboard .row .square:last-child .buildings .house:nth-child(2){top:18px;}
+#gameboard .row .square:last-child .buildings .house:nth-child(2){top:34px;}
+#gameboard .row .square:last-child .buildings .house:nth-child(2){top:34px; left:-20px;}
+
+#gameboard .row:first-child .square .buildings .house{bottom:2px;top:auto;}
+#gameboard .row:first-child .square .buildings .house:nth-child(2){right:30px;}
+#gameboard .row:first-child .square .buildings .house:nth-child(3){right:50px;}
+#gameboard .row:first-child .square .buildings .house:nth-child(4){right:70px;}
+
+
+#gameboard .square .buildings .hotel{width:16px;height:16px;position:absolute;top:2px;right:10px;z-index:99}
+#gameboard .row:last-child .square .buildings .hotel{top: 2px;}
+#gameboard .row .square:first-child .buildings .hotel{right:2px;}
+#gameboard .row .square:last-child .buildings .hotel{left:2px;right:auto;}
+#gameboard .row:first-child .square .buildings .hotel{bottom:2px;top:auto;}
+
+
+
+#gameboard .square .information-tooltip{display:none;}
+
+.information-tooltip{ padding-bottom:20px;min-width:350px;}
+.information-tooltip .tooltip-title{text-align:center;line-height:1.5em;font-size:25px;padding:7px 15px;font-variant: all-small-caps}
+.information-tooltip .tooltip-rent {border-bottom:1px dotted #333;padding:10px 15px;overflow:hidden;}
+.information-tooltip .tooltip-rent span:first-child{float:left;}
+.information-tooltip .tooltip-rent span:last-child{float:right;}
+.information-tooltip .tooltip-rent span{display:block;text-align:center;font-size: 20px;font-weight: 700;}
+.information-tooltip .tooltip-rent p{margin:10px 0px;}
+.information-tooltip .tooltip-content{padding:10px 15px;color:#555;}
+.information-tooltip .tooltip-content span{display:inline-block;width:30%;margin:0 10%;line-height: 2em;}
+.information-tooltip .tooltip-content p{text-align:center;font-weight:700;margin:3px 0px;}
+.information-tooltip .square-actions{padding:10px 15px;text-align:center}
+.information-tooltip .square-actions input.btn{margin:0 5%;font-weight:700}
+.information-tooltip .note{padding:10px 15px;font-size:12px;}
+
+
+.auction-wrapper{}
+.auction-wrapper .auction-title{margin:15px; font-size: 20px;font-weight: 700; }
+.auction-wrapper .input-group{margin:10px auto; width:50%;}
+.auction-wrapper .auction-actions{margin:10px;}
+.auction-wrapper .auction-highest-bid{padding-bottom:10px;margin-bottom:10px;border-bottom:1px dotted #ccc;}
+
+
+#gameboard #dice-container{position:absolute;top:40%;left:40%;min-width:200px;min-height:100px;text-align:center;}
+#gameboard #dice-container #diceall{text-align:center;margin:10px;}
+#dice1, #dice2, #jail-dice1,#jail-dice2{cursor:pointer;}
+
+
+#gameboard #chance-cards-stack-container{ border: 1px solid lightgray; height: 25%; left: 20%; position: absolute; top: 110px; width: 20%;}
+#gameboard #community-cards-stack-container{position:absolute;bottom:110px;right:20%; width:20%;height:25%;border:1px solid lightgray;}
+
+
+#gameboard #jail, #gameboard #jail .jailed-players, #gameboard #jail .jail-bars{position:absolute;}
+#gameboard #jail{bottom:25px;}
+#gameboard #jail .jailed-players, #gameboard #jail .jail-bars{bottom:0px;}
+#gameboard #jail .player-position-holder{bottom:5px;left:10px;}
+#gameboard #jail .player-position-holder:nth-child(2){bottom:13px;}
+#gameboard #jail .player-position-holder:nth-child(3){bottom:24px;}
+#gameboard #jail .player-position-holder:nth-child(4){bottom:35px;}
+#gameboard #jail .player-position-holder:nth-child(4){left:15px;}
+#gameboard #jail .player-position-holder:nth-child(5){left:25px;}
+#gameboard #jail .player-position-holder:nth-child(6){left:35px;}
+#gameboard #jail .player-position-holder:nth-child(7){left:45px;}
+#gameboard #jail .jail-bars{width:100%;height:100%;}
+
+
+#players-container .player{margin-bottom:20px;}
+#players-container .player .player-title .pin{width:10px;height:20px; float:left;}
+#players-container .player .player-title .turn{width:20px;height:20px;float:right;font-weight:bold;}
+#players-container .player .player-info{font-weight:bold; margin:0px 15px;}
+#players-container .player .player-assets{margin-left:20px;max-height:100px;overflow-y: scroll;}
+#players-container .player .player-assets .asset{padding-left:8px; margin-bottom:5px; border-left:5px solid;font-size:0.9em;}
+
+
+
+
+
+
+
+/*---------------------- customizations --------------------------------*/
+.information-tooltip.LocomotiveSquare .tooltip-content span:nth-child(odd){width:50%;margin:0 10%;}
+.information-tooltip.LocomotiveSquare .tooltip-content span:nth-child(even){width:10%;margin:0 10%;}
+#UnsaleableSquare-10 .square-title{ position:absolute;top: 30px; left:-20px; -webkit-transform:rotate(90deg); -moz-transform:rotate(90deg); -o-transform: rotate(90deg); -ms-transform:rotate(90deg); transform: rotate(90deg); white-space:nowrap;text-align:left; }
+
+
+
+
+/*--------------------------- Dialog Boxes ------------------------------*/
+
+#jailModal .modal-footer{display:none;text-align:center;}
+
+
+#sale-form-wrapper .manage-property .property-summary{margin-bottom:10px;padding-bottom: 10px;  }
+#sale-form-wrapper .manage-property .property-summary .square-properties{margin-left:30px}
+
+#trade-sale-property h3{margin-top:20px}
+#trade-sale-property .manage-action{text-align:center}
+
+
+
+/*--------------------------- Miscellaneous ----------------------------*/
+#game-log{ max-height: 200px;overflow-y: scroll; }
+#game-log p{font-size:0.8em;padding:3px;margin:0px;}
+#game-log p:nth-child(even){background-color:#efefef;}
+
+
+#player-game-actions-container{margin:20px 0px;}
+#player-game-actions-container button{margin:0px 10px;}
+
+/*----- Trade Dialog box ------------- */
+#trade-purchase-property #buy-btn-group{margin:20px 0px;}
+.players-sales-section .buy-player-wrapper{display:none;}
