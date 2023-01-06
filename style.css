@@ -277,7 +277,7 @@ a {
     font-weight: 400;
 }
 
-.mail-form-agile input[type="submit"] {
+.butn {
     font-size: 18px;
     padding: 10px 20px;
     letter-spacing: 1.2px;
@@ -296,10 +296,10 @@ a {
     transition-duration: 0.9s;
 }
 
-.mail-form-agile input[type="submit"]:hover {
+.butn {
     -webkit-transition-duration: 0.9s;
     transition-duration: 0.9s;
-    background: rgba(91, 157, 214, 0.76);
+    background: rgba(214, 91, 148, 0.836);
 }
 
 .footer {
