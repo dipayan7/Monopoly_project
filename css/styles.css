@@ -1,6 +1,6 @@
 body{
     font-family: 'Droid Sans', sans-serif;
-
+    
     /* Move down content because we have a fixed navbar that is 50px tall */
     padding-bottom: 20px;
 }
